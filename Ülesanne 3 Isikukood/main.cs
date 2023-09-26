@@ -12,7 +12,7 @@ namespace Ülesanne_3_Isikukood
         {
             while (true)
             {
-                Console.WriteLine("Enter IDcode");
+                Console.WriteLine("Sisesta ID-kood:");
                 string IDcode = Console.ReadLine();
                 if (new IdCode(IDcode).IsValid())
                 {
