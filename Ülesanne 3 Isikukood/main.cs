@@ -16,9 +16,9 @@ namespace Ülesanne_3_Isikukood
                 string IDcode = Console.ReadLine();
                 if (new IdCode(IDcode).IsValid())
                 {
-                    Console.WriteLine("Gender: " + new IdCode(IDcode).GetGender()); // male
-                    Console.WriteLine("Year of birth: " + new IdCode(IDcode).GetFullYear()); // 2000
-                    Console.WriteLine("Day of birth: " + new IdCode(IDcode).GetBirthDate());  // 20.05.2000
+                    Console.WriteLine("Sugu: " + new IdCode(IDcode).GetGender()); // male
+                    Console.WriteLine("Sünniaasta: " + new IdCode(IDcode).GetFullYear()); // 2000
+                    Console.WriteLine("Sünnipäev: " + new IdCode(IDcode).GetBirthDate());  // 20.05.2000
                     Console.WriteLine(new IdCode(IDcode).GetAge() + " years");  // 23 years
                     string lastThreeDigits = new string(IDcode.Reverse().Take(3).Reverse().ToArray());
                     Console.WriteLine(new IdCode(IDcode).PlaceOfBirth(int.Parse(lastThreeDigits)));  // Maarjamoisa kliinikum(Tartu), Jogeva haigla
