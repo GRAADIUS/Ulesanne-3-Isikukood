@@ -220,7 +220,7 @@ namespace Ülesanne_3_Isikukood
             {
                 place = "Viljandi haigla";
             }
-            else if (number > 651 && number <= 150)
+            else if (number > 651 && number <= 750)
             {
                 place = "Lõuna - Eesti haigla(Võru), Põlva haigla";
             }
