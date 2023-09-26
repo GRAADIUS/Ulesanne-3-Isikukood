@@ -17,12 +17,10 @@ namespace Ülesanne_3_Isikukood
         {
             _idCode = idCode;
         }
-
         private bool IsValidLength()
         {
             return _idCode.Length == 11;
         }
-
         private bool ContainsOnlyNumbers()
         {
             // return _idCode.All(Char.IsDigit);
@@ -36,23 +34,35 @@ namespace Ülesanne_3_Isikukood
             }
             return true;
         }
-
         private int GetGenderNumber()
         {
             return Convert.ToInt32(_idCode.Substring(0, 1));
         }
-
+        public string GetGender()
+        {
+            int genderNumber = GetGenderNumber();
+            if (genderNumber == 1 || genderNumber == 3 || genderNumber == 5 || genderNumber == 7)
+            {
+                return "Male";
+            }
+            else if (genderNumber == 2 || genderNumber == 4 || genderNumber == 6 || genderNumber == 8)
+            {
+                return "Female";
+            }
+            else
+            {
+                return "";
+            }
+        }
         private bool IsValidGenderNumber()
         {
             int genderNumber = GetGenderNumber();
             return genderNumber > 0 && genderNumber < 7;
         }
-
         private int Get2DigitYear()
         {
             return Convert.ToInt32(_idCode.Substring(1, 2));
         }
-
         public int GetFullYear()
         {
             int genderNumber = GetGenderNumber();
@@ -61,18 +71,15 @@ namespace Ülesanne_3_Isikukood
             // 5, 6 => 20xx
             return 1800 + (genderNumber - 1) / 2 * 100 + Get2DigitYear();
         }
-
         private int GetMonth()
         {
             return Convert.ToInt32(_idCode.Substring(3, 2));
         }
-
         private bool IsValidMonth()
         {
             int month = GetMonth();
             return month > 0 && month < 13;
         }
-
         private static bool IsLeapYear(int year)
         {
             return year % 4 == 0 && year % 100 != 0 || year % 400 == 0;
@@ -81,7 +88,6 @@ namespace Ülesanne_3_Isikukood
         {
             return Convert.ToInt32(_idCode.Substring(5, 2));
         }
-
         private bool IsValidDay()
         {
             int day = GetDay();
@@ -104,7 +110,6 @@ namespace Ülesanne_3_Isikukood
             }
             return 0 < day && day <= maxDays;
         }
-
         private int CalculateControlNumberWithWeights(int[] weights)
         {
             int total = 0;
@@ -114,7 +119,6 @@ namespace Ülesanne_3_Isikukood
             }
             return total;
         }
-
         private bool IsValidControlNumber()
         {
             int controlNumber = Convert.ToInt32(_idCode[^1..]);
@@ -142,7 +146,6 @@ namespace Ülesanne_3_Isikukood
                 && IsValidDay()
                 && IsValidControlNumber();
         }
-
         public DateOnly GetBirthDate()
         {
             int day = GetDay();
@@ -150,12 +153,11 @@ namespace Ülesanne_3_Isikukood
             int year = GetFullYear();
             return new DateOnly(year, month, day);
         }
-
         public int GetAge()
         {
             int year_of_burn = GetFullYear();
             var currentYear = DateTime.Now.Year;
-            int Age = currentYear - year_of_burn;
+            int Age = currentYear - year_of_burn - 1;
             return Age;
         }
 
@@ -227,41 +229,6 @@ namespace Ülesanne_3_Isikukood
                 place = "Selle sünnitusmaja kohta andmed puuduvad";
             }
             return place;
-        }
-    }
-
-    public class Program
-    {
-        public static void Main()
-        {
-            Console.WriteLine(new IdCode("27605030298").GetFullYear());  // 1876
-            Console.WriteLine(new IdCode("37605030299").GetFullYear());  // 1976
-            Console.WriteLine(new IdCode("50005200009").GetFullYear());  // 2000
-            Console.WriteLine(new IdCode("27605030298").GetBirthDate());  // 03.05.1876
-            Console.WriteLine(new IdCode("37605030299").GetBirthDate());  // 03.05.1976
-            Console.WriteLine(new IdCode("50005200009").GetBirthDate());  // 20.05.2000
-
-            Console.WriteLine(new IdCode("a").IsValid());  // False
-            Console.WriteLine(new IdCode("123").IsValid());  // False
-            Console.WriteLine(new IdCode("37605030299").IsValid());  // True
-                                                                        // 30th February
-            Console.WriteLine(new IdCode("37602300299").IsValid());  // False
-            Console.WriteLine(new IdCode("52002290299").IsValid());  // False
-            Console.WriteLine(new IdCode("50002290231").IsValid());  // True
-            Console.WriteLine(new IdCode("30002290231").IsValid());  // False
-
-            // control number 2nd round
-            Console.WriteLine(new IdCode("51809170123").IsValid());  // True
-            Console.WriteLine(new IdCode("39806302730").IsValid());  // True
-
-            // control number 3rd round
-            Console.WriteLine(new IdCode("60102031670").IsValid());  // True
-            Console.WriteLine(new IdCode("39106060750").IsValid());  // True
-
-            Console.WriteLine(new IdCode("50005200009").GetAge() + " years");  // 23 years
-            string Id = "27605030298";
-            string lastThreeDigits = new string(Id.Reverse().Take(3).Reverse().ToArray());
-            Console.WriteLine(new IdCode(Id).PlaceOfBirth(int.Parse(lastThreeDigits)));  // Maarjamoisa kliinikum(Tartu), Jogeva haigla
         }
     }
 }
